@@ -1,6 +1,6 @@
 # Game
 
-**TODO: Add description**
+This is a strategy game where players compete to control castles. Castles provide income and opportunities to produce armies which can be used to capture further cities.
 
 ## Installation
 
