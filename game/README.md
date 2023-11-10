@@ -1,6 +1,7 @@
 # Game
 
-This is a strategy game where players compete to control castles. Castles provide income and opportunities to produce armies which can be used to capture further cities.
+An open source clone of an old PC game I love. To try it out - download the
+official iOS port [from the App Store](https://apps.apple.com/us/app/warlords-classic-strategy/id532024361).
 
 ## Installation
 

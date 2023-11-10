@@ -1,7 +1,5 @@
 defmodule Game do
-  @moduledoc """
-  Documentation for `Game`.
-  """
+  @moduledoc false
 
   @doc """
   Hello world.

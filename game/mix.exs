@@ -8,7 +8,29 @@ defmodule Game.MixProject do
       elixir: "~> 1.15",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      deps: deps(),
+
+      # Docs
+      name: "Warlords Game",
+      docs: [
+        extras: ["README.md"],
+        groups_for_modules: [
+          Boundary: [
+            Game.Boundary.Template.Illuria
+          ],
+          Core: [
+            Game.Core.ArmyTemplate,
+            Game.Core.ArmyType,
+            Game.Core.City,
+            Game.Core.Empire,
+            Game.Core.Item,
+            Game.Core.Terrain
+          ],
+          Boilerplate: [
+            Ecto.Atom
+          ]
+        ]
+      ]
     ]
   end
 
@@ -27,7 +49,9 @@ defmodule Game.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:ecto_sql, "~> 3.0"}
+      {:ecto_sql, "~> 3.0"},
+      {:ex_doc, "~> 0.27", only: :dev, runtime: false},
+      {:makeup_html, ">= 0.0.0", only: :dev, runtime: false}
     ]
   end
 end
