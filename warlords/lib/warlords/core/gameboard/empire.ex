@@ -30,7 +30,7 @@ defmodule Warlords.Core.Gameboard.Empire do
 
   ## Examples
 
-      iex> Warlords.Core.Gameboard.Empire.new(%{
+      iex> Warlords.Core.Gameboard.Empire.new!(%{
       ...>   id: :storm_giants,
       ...>   label: "Storm Giants"
       ...> })

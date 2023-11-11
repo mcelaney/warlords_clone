@@ -63,7 +63,7 @@ defmodule Warlords.Core.City.Army do
 
   ## Examples
 
-      iex> Warlords.Core.City.Army.new(%{
+      iex> Warlords.Core.City.Army.new!(%{
       ...>   city: "Gildenhome",
       ...>   nth: 101,
       ...>   strength: 4,
@@ -79,11 +79,11 @@ defmodule Warlords.Core.City.Army do
   """
   @spec new!(valid_attrs()) :: t() | no_return()
   def new!(attrs) do
-    with {:ok, army_type} <- new(attrs) do
-      army_type
+    with {:ok, army} <- new(attrs) do
+      army
     else
       {:error, changeset} ->
-        raise "Failed to create army type: #{inspect(changeset.errors)}"
+        raise "Failed to create army: #{inspect(changeset.errors)}"
     end
   end
 

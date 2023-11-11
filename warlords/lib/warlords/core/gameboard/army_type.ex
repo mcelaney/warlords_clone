@@ -64,7 +64,7 @@ defmodule Warlords.Core.Gameboard.ArmyType do
 
   ## Examples
 
-      iex> Warlords.Core.Gameboard.ArmyType.new(%{
+      iex> Warlords.Core.Gameboard.ArmyType.new!(%{
       ...>   id: :archer,
       ...>   label: "Elven Archers",
       ...>   type: :standard,

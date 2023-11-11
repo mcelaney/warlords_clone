@@ -49,7 +49,7 @@ defmodule Warlords.Core.Gameboard.Item do
 
   ## Examples
 
-      iex> Warlords.Core.Gameboard.Item.new(%{
+      iex> Warlords.Core.Gameboard.Item.new!(%{
       ...>   id: :firesword,
       ...>   label: "The Firesword",
       ...>   type: :strength,

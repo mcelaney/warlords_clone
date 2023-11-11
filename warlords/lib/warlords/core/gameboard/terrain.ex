@@ -39,7 +39,7 @@ defmodule Warlords.Core.Gameboard.Terrain do
 
   ## Examples
 
-      iex> Warlords.Core.Gameboard.Terrain.new(%{
+      iex> Warlords.Core.Gameboard.Terrain.new!(%{
       ...>   id: :hill,
       ...>   type: :ground
       ...> })

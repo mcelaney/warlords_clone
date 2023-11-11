@@ -23,6 +23,9 @@ defmodule Warlords.MixProject do
             Warlords.Core.City.Army,
             Warlords.Core.City.Army.Label
           ],
+          "Core - Hero": [
+            Warlords.Core.Hero
+          ],
           "Core - Map Concerns": [
             Warlords.Core.Gameboard,
             Warlords.Core.Gameboard.ArmyTemplate,

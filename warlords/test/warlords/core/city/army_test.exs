@@ -45,7 +45,7 @@ defmodule Warlords.Core.City.ArmyTest do
       end
     end
 
-    test "resuires a valid army type" do
+    test "requires a valid army type" do
       {:error, changeset} =
         City.produce_army(Map.delete(@valid_attrs, :type))
 
