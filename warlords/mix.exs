@@ -18,6 +18,11 @@ defmodule Warlords.MixProject do
           "Boundary - Maps": [
             Warlords.Boundary.Template.Maps.Illuria
           ],
+          "Core - City Concerns": [
+            Warlords.Core.City,
+            Warlords.Core.City.Army,
+            Warlords.Core.City.Army.Label
+          ],
           "Core - Map Concerns": [
             Warlords.Core.Gameboard,
             Warlords.Core.Gameboard.ArmyTemplate,

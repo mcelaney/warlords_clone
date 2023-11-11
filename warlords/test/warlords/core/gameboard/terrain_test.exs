@@ -5,14 +5,14 @@ defmodule Warlords.Core.Gameboard.TerrainTest do
 
   doctest Terrain
 
-  @valied_attrs %{id: :road, type: :ground}
+  @valid_attrs %{id: :road, type: :ground}
   @required_fields ~w(id type)a
 
   describe "new/1" do
     test "with valid attributes" do
-      {:ok, %Terrain{} = result} = Gameboard.new_terrain(@valied_attrs)
-      assert result.id == @valied_attrs[:id]
-      assert result.type == @valied_attrs[:type]
+      {:ok, %Terrain{} = result} = Gameboard.new_terrain(@valid_attrs)
+      assert result.id == @valid_attrs[:id]
+      assert result.type == @valid_attrs[:type]
     end
 
     test "with invalid attributes returns an changeset" do
@@ -21,24 +21,24 @@ defmodule Warlords.Core.Gameboard.TerrainTest do
 
     test "requires fields" do
       for field <- @required_fields do
-        {:error, changeset} = Gameboard.new_terrain(Map.delete(@valied_attrs, field))
+        {:error, changeset} = Gameboard.new_terrain(Map.delete(@valid_attrs, field))
         expected = %{field => ["can't be blank"]}
         assert expected == errors_on(changeset)
       end
     end
 
     test "validates type is an expected value" do
-      {:error, changeset} = Gameboard.new_terrain(Map.put(@valied_attrs, :type, :not_expected))
+      {:error, changeset} = Gameboard.new_terrain(Map.put(@valid_attrs, :type, :not_expected))
       assert "is invalid" in errors_on(changeset).type
     end
   end
 
   describe "new!/1" do
     test "with valid attributes" do
-      result = Gameboard.new_terrain!(@valied_attrs)
+      result = Gameboard.new_terrain!(@valid_attrs)
       assert %Terrain{} = result
-      assert result.id == @valied_attrs[:id]
-      assert result.type == @valied_attrs[:type]
+      assert result.id == @valid_attrs[:id]
+      assert result.type == @valid_attrs[:type]
     end
 
     test "with invalid attributes raises" do

@@ -5,14 +5,14 @@ defmodule Warlords.Core.Gameboard.EmpireTest do
 
   doctest Empire
 
-  @valied_attrs %{id: :horse_lords, label: "Horse Lords"}
+  @valid_attrs %{id: :horse_lords, label: "Horse Lords"}
   @required_fields ~w(id label)a
 
   describe "new/1" do
     test "with valid attributes" do
-      {:ok, %Empire{} = result} = Gameboard.new_empire(@valied_attrs)
-      assert result.id == @valied_attrs[:id]
-      assert result.label == @valied_attrs[:label]
+      {:ok, %Empire{} = result} = Gameboard.new_empire(@valid_attrs)
+      assert result.id == @valid_attrs[:id]
+      assert result.label == @valid_attrs[:label]
     end
 
     test "with invalid attributes returns an changeset" do
@@ -21,7 +21,7 @@ defmodule Warlords.Core.Gameboard.EmpireTest do
 
     test "requires fields" do
       for field <- @required_fields do
-        {:error, changeset} = Gameboard.new_empire(Map.delete(@valied_attrs, field))
+        {:error, changeset} = Gameboard.new_empire(Map.delete(@valid_attrs, field))
         expected = %{field => ["can't be blank"]}
         assert expected == errors_on(changeset)
       end
@@ -30,10 +30,10 @@ defmodule Warlords.Core.Gameboard.EmpireTest do
 
   describe "new!/1" do
     test "with valid attributes" do
-      result = Gameboard.new_empire!(@valied_attrs)
+      result = Gameboard.new_empire!(@valid_attrs)
       assert %Empire{} = result
-      assert result.id == @valied_attrs[:id]
-      assert result.label == @valied_attrs[:label]
+      assert result.id == @valid_attrs[:id]
+      assert result.label == @valid_attrs[:label]
     end
 
     test "with invalid attributes raises" do

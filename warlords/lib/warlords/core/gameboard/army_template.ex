@@ -9,6 +9,7 @@ defmodule Warlords.Core.Gameboard.ArmyTemplate do
   use Ecto.Schema
   import Ecto.Changeset
   require Integer
+  alias Warlords.Core
   alias Warlords.Core.Gameboard.ArmyType
 
   @type t :: %__MODULE__{
@@ -30,7 +31,7 @@ defmodule Warlords.Core.Gameboard.ArmyTemplate do
   This should always be an even number - and is double the per-turn upkeep cost
   for the unit
   """
-  @type army_cost :: integer
+  @type army_cost :: Core.gold()
 
   @typedoc """
   The base strength before force combat modifiers are applied

@@ -17,6 +17,11 @@ defmodule Warlords.Core.Gameboard.City do
   @type city_id :: Ecto.Atom
 
   @typedoc """
+  The display name for the city
+  """
+  @type city_label :: String.t()
+
+  @typedoc """
   The base strength before force combat modifiers are applied
   """
   @type defense_strength :: integer
@@ -28,7 +33,7 @@ defmodule Warlords.Core.Gameboard.City do
 
   @type t :: %__MODULE__{
           id: city_id(),
-          label: String.t(),
+          label: city_label,
           defense: defense_strength(),
           capital: empire_id()
         }

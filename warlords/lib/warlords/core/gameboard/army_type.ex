@@ -14,7 +14,7 @@ defmodule Warlords.Core.Gameboard.ArmyType do
   @type army_id :: Ecto.Atom
 
   @typedoc """
-  Defines possible bonuses and indicates how units can be aquired
+  Primarily defines how units can be aquired.
 
   There are three types of armys: standard, special, and hero
 
