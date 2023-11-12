@@ -1,8 +1,8 @@
-defmodule Warlords.Core.City.Army.LabelTest do
+defmodule Warlords.Core.City.UnitLabelTest do
   use Warlords.DataCase
-  alias Warlords.Core.City.Army.Label
+  alias Warlords.Core.City.UnitLabel
 
-  doctest Label
+  doctest UnitLabel
 
   @expected [
     {1, "1st"},
@@ -33,7 +33,7 @@ defmodule Warlords.Core.City.Army.LabelTest do
 
   test "ordinal_suffix/1 returns the expected amount" do
     for {i, expected} <- @expected do
-      result = Warlords.Core.City.Army.Label.build("Elven Archers", %{city: "Gildenhome", nth: i})
+      result = UnitLabel.build("Elven Archers", %{city: "Gildenhome", nth: i})
       assert "Gildenhome #{expected} Elven Archers" == result
     end
   end

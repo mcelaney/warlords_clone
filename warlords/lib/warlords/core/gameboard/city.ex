@@ -8,6 +8,7 @@ defmodule Warlords.Core.Gameboard.City do
   """
   use Ecto.Schema
   import Ecto.Changeset
+  alias Warlords.Core
   alias Warlords.Core.Gameboard.ArmyTemplate
   alias Warlords.Core.Gameboard.Empire
 
@@ -35,6 +36,7 @@ defmodule Warlords.Core.Gameboard.City do
           id: city_id(),
           label: city_label,
           defense: defense_strength(),
+          income: Core.gold(),
           capital: empire_id()
         }
 
@@ -43,6 +45,7 @@ defmodule Warlords.Core.Gameboard.City do
     field(:id, Ecto.Atom)
     field(:label, :string)
     field(:defense, :integer)
+    field(:income, :integer)
     field(:capital, Ecto.Atom)
 
     embeds_many(:army_templates, ArmyTemplate)

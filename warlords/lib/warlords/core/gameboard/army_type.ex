@@ -11,7 +11,7 @@ defmodule Warlords.Core.Gameboard.ArmyType do
   @typedoc """
   An atom used to reference a specific army type, e.g. :archer, :hero, :dragon
   """
-  @type army_id :: Ecto.Atom
+  @type army_type :: Ecto.Atom
 
   @typedoc """
   Primarily defines how units can be aquired.
@@ -26,7 +26,7 @@ defmodule Warlords.Core.Gameboard.ArmyType do
   - **Heros** can be hired when offered. They provide an attack bonus other armies in
   the same stack.
   """
-  @type army_type :: :standard | :special | :hero
+  @type unit_type :: :standard | :special | :hero
 
   @typedoc """
   Defines limitations on movement based on the terrain type.
@@ -45,9 +45,9 @@ defmodule Warlords.Core.Gameboard.ArmyType do
   @type terrain_access :: :ground | :air | :sea | :mimic
 
   @type t :: %__MODULE__{
-          id: army_id(),
+          id: army_type(),
           label: String.t(),
-          type: army_type(),
+          type: unit_type(),
           access: terrain_access()
         }
 

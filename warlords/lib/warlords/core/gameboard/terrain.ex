@@ -16,12 +16,28 @@ defmodule Warlords.Core.Gameboard.Terrain do
   - **:ground** - ground and air armies can move on this terrain
   - **:sea** - stacks containing sea armies can move on this terrain
   - **:bridge** - a special hybrid of ground and sea any army can move on
-  - **:restricted** - only air and mimics stacked with air armies can move on this terrain
+  - **:restricted** - only air and rider stacked with air armies can move on this terrain
 
   It's posible for armies to be abandoned by a stack and left unable to move
   off a tile - say a hero is moved on to mountains by a dragon and left there.
   """
   @type terrain_type :: :ground | :sea | :bridge | :restricted
+
+  @typedoc """
+  Defines limitations on movement based on the terrain type.
+
+  - **Ground units** can only move on ground-based terrains unless in a stack with a
+  sea unit.
+
+  - **Sea units** can only move on water-based terrains and can carry any rider or
+  ground unit on the same.
+
+  - **Air units** can move anywhere and can carry rider. They also provide an attack
+  bonus to other armies in the same stack.
+
+  - **Rider** move like ground units unless in a stack with an air or sea unit.
+  """
+  @type access_type :: :ground | :air | :sea | :rider
 
   @type t :: %__MODULE__{
           id: terrain_id(),

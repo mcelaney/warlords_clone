@@ -10,15 +10,15 @@ defmodule Warlords.Core.Gameboard.ArmyTemplate do
   import Ecto.Changeset
   require Integer
   alias Warlords.Core
-  alias Warlords.Core.Gameboard.ArmyType
+  # alias Warlords.Core.Gameboard.ArmyType
 
-  @type t :: %__MODULE__{
-          type: ArmyType.army_id(),
-          cost: army_cost(),
-          movement: movement_limit(),
-          strength: attack_strength(),
-          time: turns()
-        }
+  # @type t :: %__MODULE__{
+  #         type: ArmyType.army_id(),
+  #         cost: army_cost(),
+  #         movement: movement_limit(),
+  #         strength: attack_strength(),
+  #         time: turns()
+  #       }
 
   @typedoc """
   The number of turns it takes to produce an army
@@ -69,7 +69,7 @@ defmodule Warlords.Core.Gameboard.ArmyTemplate do
       %Warlords.Core.Gameboard.ArmyTemplate{type: :archers, time: 3, cost: 4, strength: 4, movement: 12}
 
   """
-  @spec new!(attrs :: map) :: t() | no_return()
+  # @spec new!(attrs :: map) :: t() | no_return()
   def new!(attrs) do
     with {:ok, army_template} <- new(attrs) do
       army_template
@@ -95,7 +95,7 @@ defmodule Warlords.Core.Gameboard.ArmyTemplate do
       {:ok, %Warlords.Core.Gameboard.ArmyTemplate{type: :archers, time: 3, cost: 4, strength: 4, movement: 12}}
 
   """
-  @spec new(attrs :: map) :: {:ok, t()} | {:error, Ecto.Changeset.t()}
+  # @spec new(attrs :: map) :: {:ok, t()} | {:error, Ecto.Changeset.t()}
   def new(attrs) do
     %__MODULE__{}
     |> changeset(attrs)

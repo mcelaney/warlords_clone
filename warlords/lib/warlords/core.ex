@@ -18,4 +18,21 @@ defmodule Warlords.Core do
   castles and structures.
   """
   @type gold :: integer
+
+  @typedoc """
+  The number of points a units gets to apply toward movement per turn.
+
+  Each terrain type will have a different movement cost. So if a unit has 12
+  movement points and is moving across a terrain type with a cost of 3, it will
+  be able to move 4 spaces.
+  """
+  @type movement_points :: integer
+
+  @typedoc """
+  Strength is used to calculate both attack and defense values.
+
+  Each unit has a base strength and then modifiers are applied based on factors
+  such as terrain efficacy, empire bonuses, blessings, and stack bonuses.
+  """
+  @type strength_points :: integer
 end

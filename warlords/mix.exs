@@ -23,8 +23,11 @@ defmodule Warlords.MixProject do
             Warlords.Core.City.Army,
             Warlords.Core.City.Army.Label
           ],
-          "Core - Hero": [
-            Warlords.Core.Hero
+          "Core - Units": [
+            Warlords.Core.Units,
+            Warlords.Core.Units.Standard,
+            Warlords.Core.Units.Special,
+            Warlords.Core.Units.Hero
           ],
           "Core - Map Concerns": [
             Warlords.Core.Gameboard,

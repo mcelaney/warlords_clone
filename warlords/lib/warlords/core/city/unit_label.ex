@@ -1,4 +1,4 @@
-defmodule Warlords.Core.City.Army.Label do
+defmodule Warlords.Core.City.UnitLabel do
   @moduledoc """
   Helper to build labels for armies
   """
@@ -18,7 +18,7 @@ defmodule Warlords.Core.City.Army.Label do
 
   ## Examples
 
-      iex> Warlords.Core.City.Army.Label.build("Elven Archers", %{city: "Gildenhome", nth: 11})
+      iex> Warlords.Core.City.UnitLabel.build("Elven Archers", %{city: "Gildenhome", nth: 11})
       "Gildenhome 11th Elven Archers"
   """
   @spec build(String.t(), map) :: t()
