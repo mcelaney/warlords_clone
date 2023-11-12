@@ -1,4 +1,4 @@
-defmodule Warlords.Core.Gameboard.ArmyTemplate do
+defmodule Warlords.Core.Gameboard.ProductionTemplate do
   @moduledoc """
   Provides information needed for city production of new standard armies.
 
@@ -58,7 +58,7 @@ defmodule Warlords.Core.Gameboard.ArmyTemplate do
 
   ## Examples
 
-      iex> Warlords.Core.Gameboard.ArmyTemplate.new!(%{
+      iex> Warlords.Core.Gameboard.ProductionTemplate.new!(%{
       ...>   type: :archers,
       ...>   time: 3,
       ...>   cost: 4,
@@ -66,7 +66,7 @@ defmodule Warlords.Core.Gameboard.ArmyTemplate do
       ...>   movement: 12
       ...> })
 
-      %Warlords.Core.Gameboard.ArmyTemplate{type: :archers, time: 3, cost: 4, strength: 4, movement: 12}
+      %Warlords.Core.Gameboard.ProductionTemplate{type: :archers, time: 3, cost: 4, strength: 4, movement: 12}
 
   """
   @spec new!(attrs :: map) :: t() | no_return()
@@ -84,7 +84,7 @@ defmodule Warlords.Core.Gameboard.ArmyTemplate do
 
   ## Examples
 
-      iex> Warlords.Core.Gameboard.ArmyTemplate.new(%{
+      iex> Warlords.Core.Gameboard.ProductionTemplate.new(%{
       ...>   type: :archers,
       ...>   time: 3,
       ...>   cost: 4,
@@ -92,7 +92,7 @@ defmodule Warlords.Core.Gameboard.ArmyTemplate do
       ...>   movement: 12
       ...> })
 
-      {:ok, %Warlords.Core.Gameboard.ArmyTemplate{type: :archers, time: 3, cost: 4, strength: 4, movement: 12}}
+      {:ok, %Warlords.Core.Gameboard.ProductionTemplate{type: :archers, time: 3, cost: 4, strength: 4, movement: 12}}
 
   """
   @spec new(attrs :: map) :: {:ok, t()} | {:error, Ecto.Changeset.t()}

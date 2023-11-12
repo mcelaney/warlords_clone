@@ -1,7 +1,7 @@
 defmodule Warlords.Core.Gameboard.CityTest do
   use Warlords.DataCase
   alias Warlords.Core.Gameboard
-  alias Warlords.Core.Gameboard.ArmyTemplate
+  alias Warlords.Core.Gameboard.ProductionTemplate
   alias Warlords.Core.Gameboard.City
 
   doctest City
@@ -11,7 +11,7 @@ defmodule Warlords.Core.Gameboard.CityTest do
     label: "Ak-enlie",
     defense: 4,
     army_templates: [
-      ArmyTemplate.new!(%{type: :heavy_infantry, time: 2, cost: 4, strength: 5, movement: 8})
+      ProductionTemplate.new!(%{type: :heavy_infantry, time: 2, cost: 4, strength: 5, movement: 8})
     ]
   }
   @required_fields ~w(id label defense)a

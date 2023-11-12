@@ -32,7 +32,7 @@ defmodule Warlords.MixProject do
           ],
           "Core - Map Concerns": [
             Warlords.Core.Gameboard,
-            Warlords.Core.Gameboard.ArmyTemplate,
+            Warlords.Core.Gameboard.ProductionTemplate,
             Warlords.Core.Gameboard.ArmyType,
             Warlords.Core.Gameboard.City,
             Warlords.Core.Gameboard.Empire,

@@ -94,7 +94,7 @@ defmodule Warlords.Core.Units.Stack do
 
   defp changeset(stack, attrs) do
     stack
-    |> cast(attrs, [])
+    |> change()
     |> put_units(attrs)
   end
 

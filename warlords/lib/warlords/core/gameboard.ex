@@ -7,15 +7,15 @@ defmodule Warlords.Core.Gameboard do
   gameboard to the types of armies and items available to players.
   """
 
-  alias Warlords.Core.Gameboard.ArmyTemplate
+  alias Warlords.Core.Gameboard.ProductionTemplate
   alias Warlords.Core.Gameboard.ArmyType
   alias Warlords.Core.Gameboard.City
   alias Warlords.Core.Gameboard.Empire
   alias Warlords.Core.Gameboard.Item
   alias Warlords.Core.Gameboard.Terrain
 
-  defdelegate new_army_template(attrs), to: ArmyTemplate, as: :new
-  defdelegate new_army_template!(attrs), to: ArmyTemplate, as: :new!
+  defdelegate new_army_template(attrs), to: ProductionTemplate, as: :new
+  defdelegate new_army_template!(attrs), to: ProductionTemplate, as: :new!
 
   defdelegate new_army_type(attrs), to: ArmyType, as: :new
   defdelegate new_army_type!(attrs), to: ArmyType, as: :new!

@@ -1,16 +1,16 @@
-defmodule Warlords.Core.Gameboard.ArmyTemplateTest do
+defmodule Warlords.Core.Gameboard.ProductionTemplateTest do
   use Warlords.DataCase
   alias Warlords.Core.Gameboard
-  alias Warlords.Core.Gameboard.ArmyTemplate
+  alias Warlords.Core.Gameboard.ProductionTemplate
 
-  doctest ArmyTemplate
+  doctest ProductionTemplate
 
   @valid_attrs %{type: :archers, time: 3, cost: 4, strength: 4, movement: 12}
   @required_fields ~w(type time cost strength movement)a
 
   describe "new/1" do
     test "with valid attributes" do
-      {:ok, %ArmyTemplate{} = result} = Gameboard.new_army_template(@valid_attrs)
+      {:ok, %ProductionTemplate{} = result} = Gameboard.new_army_template(@valid_attrs)
       assert result.type == @valid_attrs[:type]
       assert result.time == @valid_attrs[:time]
       assert result.cost == @valid_attrs[:cost]
@@ -39,7 +39,7 @@ defmodule Warlords.Core.Gameboard.ArmyTemplateTest do
   describe "new!/1" do
     test "with valid attributes" do
       result = Gameboard.new_army_template!(@valid_attrs)
-      assert %ArmyTemplate{} = result
+      assert %ProductionTemplate{} = result
       assert result.type == @valid_attrs[:type]
       assert result.time == @valid_attrs[:time]
       assert result.cost == @valid_attrs[:cost]

@@ -9,8 +9,9 @@ defmodule Warlords.Core.Gameboard.City do
   use Ecto.Schema
   import Ecto.Changeset
   alias Warlords.Core
-  alias Warlords.Core.Gameboard.ArmyTemplate
+  alias Warlords.Core.Gameboard.ProductionTemplate
   alias Warlords.Core.Gameboard.Empire
+  alias Warlords.Core.Units.Stack
 
   @typedoc """
   An atom used to reference a specific city on the map, e.g. :loremark, :malikor
@@ -48,7 +49,7 @@ defmodule Warlords.Core.Gameboard.City do
     field(:income, :integer)
     field(:capital, Ecto.Atom)
 
-    embeds_many(:army_templates, ArmyTemplate)
+    embeds_many(:army_templates, ProductionTemplate)
   end
 
   @doc """
@@ -56,7 +57,7 @@ defmodule Warlords.Core.Gameboard.City do
 
   ## Examples
 
-      iex> giant = Warlords.Core.Gameboard.ArmyTemplate.new!(%{type: :giant, time: 2, cost: 4, strength: 6, movement: 12})
+      iex> giant = Warlords.Core.Gameboard.ProductionTemplate.new!(%{type: :giant, time: 2, cost: 4, strength: 6, movement: 12})
       ...> Warlords.Core.Gameboard.City.new(%{
       ...>   id: :stormheim,
       ...>   label: "Stormheim",
@@ -69,7 +70,7 @@ defmodule Warlords.Core.Gameboard.City do
         id: :stormheim,
         label: "Stormheim",
         defense: 6,
-        army_templates: [%Warlords.Core.Gameboard.ArmyTemplate{type: :giant, time: 2, cost: 4, strength: 6, movement: 12}],
+        army_templates: [%Warlords.Core.Gameboard.ProductionTemplate{type: :giant, time: 2, cost: 4, strength: 6, movement: 12}],
         capital: :storm_giants
       }
 
@@ -89,7 +90,7 @@ defmodule Warlords.Core.Gameboard.City do
 
   ## Examples
 
-      iex> giant = Warlords.Core.Gameboard.ArmyTemplate.new!(%{type: :giant, time: 2, cost: 4, strength: 6, movement: 12})
+      iex> giant = Warlords.Core.Gameboard.ProductionTemplate.new!(%{type: :giant, time: 2, cost: 4, strength: 6, movement: 12})
       ...> Warlords.Core.Gameboard.City.new(%{
       ...>   id: :stormheim,
       ...>   label: "Stormheim",
@@ -104,7 +105,7 @@ defmodule Warlords.Core.Gameboard.City do
           id: :stormheim,
           label: "Stormheim",
           defense: 6,
-          army_templates: [%Warlords.Core.Gameboard.ArmyTemplate{type: :giant, time: 2, cost: 4, strength: 6, movement: 12}],
+          army_templates: [%Warlords.Core.Gameboard.ProductionTemplate{type: :giant, time: 2, cost: 4, strength: 6, movement: 12}],
           capital: :storm_giants
         }
       }

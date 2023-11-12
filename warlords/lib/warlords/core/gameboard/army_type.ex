@@ -2,7 +2,7 @@ defmodule Warlords.Core.Gameboard.ArmyType do
   @moduledoc """
   Defines the types of playable armies which can be found or produced by players.
 
-  These are used, in combination with `Warlords.Core.ArmyTemplate`, to generate
+  These are used, in combination with `Warlords.Core.ProductionTemplate`, to generate
   individual armies.
   """
   use Ecto.Schema
