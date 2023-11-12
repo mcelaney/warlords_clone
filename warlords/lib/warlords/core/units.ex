@@ -21,6 +21,7 @@ defmodule Warlords.Core.Units do
 
   alias Warlords.Core.Units.Hero
   alias Warlords.Core.Units.Special
+  alias Warlords.Core.Units.Stack
   alias Warlords.Core.Units.Standard
 
   defdelegate new_hero(attrs), to: Hero, as: :new
@@ -31,4 +32,8 @@ defmodule Warlords.Core.Units do
 
   defdelegate new_unit(attrs), to: Standard, as: :new
   defdelegate new_unit!(attrs), to: Standard, as: :new!
+
+  defdelegate new_stack(attrs), to: Stack, as: :new
+  defdelegate new_stack!(attrs), to: Stack, as: :new!
+  defdelegate combat_modifier(stack), to: Stack.CombatModifier
 end

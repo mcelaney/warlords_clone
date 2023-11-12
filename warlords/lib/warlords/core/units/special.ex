@@ -25,7 +25,7 @@ defmodule Warlords.Core.Units.Special do
         :ok,
         %Warlords.Core.Units.Special{label: "Undead",
                                     strength: 4, movement: 12, upkeep: 0,
-                                    army_type :ghost, terrain_access: :ground,
+                                    army_type: :ghost, terrain_access: :ground,
                                     blessings: []}
       }
   """
@@ -46,7 +46,7 @@ defmodule Warlords.Core.Units.Special do
 
       %Warlords.Core.Units.Special{label: "Undead",
                                   strength: 4, movement: 12, upkeep: 0,
-                                  army_type :ghost, terrain_access: :ground,
+                                  army_type: :ghost, terrain_access: :ground,
                                   blessings: []}
   """
   def new!(attrs)

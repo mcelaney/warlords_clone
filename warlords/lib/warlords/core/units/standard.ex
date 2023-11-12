@@ -27,7 +27,7 @@ defmodule Warlords.Core.Units.Standard do
         :ok,
         %Warlords.Core.Units.Standard{label: "Gildenhome 101st Elven Archers",
                                       strength: 4, movement: 12, upkeep: 2,
-                                      army_type :archer, terrain_access: :ground,
+                                      army_type: :archer, terrain_access: :ground,
                                       blessings: []}
       }
   """
@@ -49,7 +49,7 @@ defmodule Warlords.Core.Units.Standard do
 
       %Warlords.Core.Units.Standard{label: "Gildenhome 101st Elven Archers",
                                     strength: 4, movement: 12, upkeep: 2,
-                                    army_type :archer, terrain_access: :ground,
+                                    army_type: :archer, terrain_access: :ground,
                                     blessings: []}
   """
   def new!(attrs)

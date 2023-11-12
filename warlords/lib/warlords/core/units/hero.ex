@@ -25,7 +25,7 @@ defmodule Warlords.Core.Units.Hero do
         :ok,
         %Warlords.Core.Units.Hero{label: "Brave Sir Robin",
                                  strength: 4, movement: 12, upkeep: 0,
-                                 army_type :hero, terrain_access: :rider,
+                                 army_type: :hero, terrain_access: :rider,
                                  blessings: []}
       }
   """
@@ -45,7 +45,7 @@ defmodule Warlords.Core.Units.Hero do
 
       %Warlords.Core.Units.Hero{label: "Brave Sir Robin",
                                 strength: 4, movement: 12, upkeep: 0,
-                                army_type :hero, terrain_access: :rider,
+                                army_type: :hero, terrain_access: :rider,
                                 blessings: []}
   """
   def new!(attrs)

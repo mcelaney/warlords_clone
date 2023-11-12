@@ -27,7 +27,8 @@ defmodule Warlords.MixProject do
             Warlords.Core.Units,
             Warlords.Core.Units.Standard,
             Warlords.Core.Units.Special,
-            Warlords.Core.Units.Hero
+            Warlords.Core.Units.Hero,
+            Warlords.Core.Units.Stack
           ],
           "Core - Map Concerns": [
             Warlords.Core.Gameboard,
