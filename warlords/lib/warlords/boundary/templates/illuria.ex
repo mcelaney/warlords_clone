@@ -2095,16 +2095,156 @@ defmodule Warlords.Boundary.Template.Maps.Illuria do
   @spec terrains() :: [key: Terrain.t()]
   def terrains do
     [
-      bridge: Gameboard.new_terrain!(%{id: :bridge, type: :bridge}),
-      city: Gameboard.new_terrain!(%{id: :city, type: :land}),
-      forest: Gameboard.new_terrain!(%{id: :forest, type: :land}),
-      hill: Gameboard.new_terrain!(%{id: :hill, type: :land}),
-      marsh: Gameboard.new_terrain!(%{id: :marsh, type: :land}),
-      mountain: Gameboard.new_terrain!(%{id: :mountain, type: :restricted}),
-      plain: Gameboard.new_terrain!(%{id: :plain, type: :land}),
-      road: Gameboard.new_terrain!(%{id: :road, type: :land}),
-      shore: Gameboard.new_terrain!(%{id: :shore, type: :sea}),
-      water: Gameboard.new_terrain!(%{id: :water, type: :sea})
+      bridge:
+        Gameboard.new_terrain!(%{
+          id: :bridge,
+          type: :bridge,
+          combat_modifiers: %{
+            elvallie: 0,
+            grey_dwarves: 0,
+            horse_lords: 0,
+            lord_bane: 0,
+            orcs_of_kor: 0,
+            selentines: 0,
+            sirians: 0,
+            storm_giants: 0
+          }
+        }),
+      city:
+        Gameboard.new_terrain!(%{
+          id: :city,
+          type: :land,
+          combat_modifiers: %{
+            elvallie: 0,
+            grey_dwarves: 0,
+            horse_lords: 0,
+            lord_bane: 0,
+            orcs_of_kor: 0,
+            selentines: 0,
+            sirians: 0,
+            storm_giants: 0
+          }
+        }),
+      forest:
+        Gameboard.new_terrain!(%{
+          id: :forest,
+          type: :land,
+          combat_modifiers: %{
+            elvallie: 1,
+            grey_dwarves: -1,
+            horse_lords: -1,
+            lord_bane: -1,
+            orcs_of_kor: -1,
+            selentines: 0,
+            sirians: 0,
+            storm_giants: 0
+          }
+        }),
+      hill:
+        Gameboard.new_terrain!(%{
+          id: :hill,
+          type: :land,
+          combat_modifiers: %{
+            elvallie: -1,
+            grey_dwarves: 2,
+            horse_lords: -1,
+            lord_bane: 0,
+            orcs_of_kor: 0,
+            selentines: 0,
+            sirians: 0,
+            storm_giants: 1
+          }
+        }),
+      marsh:
+        Gameboard.new_terrain!(%{
+          id: :marsh,
+          type: :land,
+          combat_modifiers: %{
+            elvallie: -1,
+            grey_dwarves: -1,
+            horse_lords: 0,
+            lord_bane: 1,
+            orcs_of_kor: 1,
+            selentines: 0,
+            sirians: 0,
+            storm_giants: -1
+          }
+        }),
+      mountain:
+        Gameboard.new_terrain!(%{
+          id: :mountain,
+          type: :restricted,
+          combat_modifiers: %{
+            elvallie: 0,
+            grey_dwarves: 0,
+            horse_lords: 0,
+            lord_bane: 0,
+            orcs_of_kor: 0,
+            selentines: 0,
+            sirians: 0,
+            storm_giants: 0
+          }
+        }),
+      plain:
+        Gameboard.new_terrain!(%{
+          id: :plain,
+          type: :land,
+          combat_modifiers: %{
+            elvallie: 0,
+            grey_dwarves: 0,
+            horse_lords: 1,
+            lord_bane: 0,
+            orcs_of_kor: 0,
+            selentines: 0,
+            sirians: 0,
+            storm_giants: 0
+          }
+        }),
+      road:
+        Gameboard.new_terrain!(%{
+          id: :road,
+          type: :land,
+          combat_modifiers: %{
+            elvallie: 0,
+            grey_dwarves: 0,
+            horse_lords: 1,
+            lord_bane: 0,
+            orcs_of_kor: 0,
+            selentines: 0,
+            sirians: 0,
+            storm_giants: 0
+          }
+        }),
+      shore:
+        Gameboard.new_terrain!(%{
+          id: :shore,
+          type: :sea,
+          combat_modifiers: %{
+            elvallie: 0,
+            grey_dwarves: 0,
+            horse_lords: 0,
+            lord_bane: 0,
+            orcs_of_kor: 0,
+            selentines: 1,
+            sirians: 0,
+            storm_giants: 0
+          }
+        }),
+      water:
+        Gameboard.new_terrain!(%{
+          id: :water,
+          type: :sea,
+          combat_modifiers: %{
+            elvallie: 0,
+            grey_dwarves: 0,
+            horse_lords: 0,
+            lord_bane: 0,
+            orcs_of_kor: 0,
+            selentines: 1,
+            sirians: 0,
+            storm_giants: 0
+          }
+        })
     ]
   end
 end

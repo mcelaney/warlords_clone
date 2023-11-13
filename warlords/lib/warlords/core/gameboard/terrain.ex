@@ -4,6 +4,9 @@ defmodule Warlords.Core.Gameboard.Terrain do
   """
   use Ecto.Schema
   import Ecto.Changeset
+  alias Warlords.Core.Units.Stack
+  alias Warlords.Core.Gameboard.Empire
+  alias Warlords.Core.Gameboard.Tile
 
   @typedoc """
   An atom used to reference a specific terrain, e.g. :hill, :beach, :mountain
@@ -49,6 +52,69 @@ defmodule Warlords.Core.Gameboard.Terrain do
   embedded_schema do
     field(:id, Ecto.Atom)
     field(:type, Ecto.Enum, values: [:land, :sea, :city, :bridge, :restricted])
+    field(:combat_modifiers, :map)
+  end
+
+  @doc """
+  Returns the terrain combat modifier for the defender of a given tile
+
+  Empires can have a combat modifier (positive or negative) based on terrain
+  type. Members of the elvish empire (regardless of the army_type) will perform
+  better in forests and perform worse in marshland, for example.
+
+  ## Examples
+
+      iex> tile = %Warlords.Core.Gameboard.Tile{terrain: %Warlords.Core.Gameboard.Terrain{id: :hill, type: :land, combat_modifiers: %{elvallie: 1}}, stack: %Warlords.Core.Units.Stack{empire_id: :elvallie}}
+      ...> Warlords.Core.Gameboard.Terrain.combat_modifier(tile)
+      1
+  """
+  @spec combat_modifier(Tile.t()) :: integer
+  def combat_modifier(%Tile{stack: %Stack{empire_id: empire_id}, terrain: terrain}) do
+    terrain.combat_modifiers[empire_id]
+  end
+
+  def combat_modifier(%Tile{}), do: 0
+
+  @doc """
+  Returns the terrain combat modifier for an empire
+
+  Empires can have a combat modifier (positive or negative) based on terrain
+  type. Members of the elvish empire (regardless of the army_type) will perform
+  better in forests and perform worse in marshland, for example.
+
+  ## Examples
+
+      iex> tile = %Warlords.Core.Gameboard.Tile{terrain: %Warlords.Core.Gameboard.Terrain{id: :hill, type: :land, combat_modifiers: %{elvallie: 2}}}
+      ...> Warlords.Core.Gameboard.Terrain.combat_modifier(tile, %Warlords.Core.Units.Stack{empire_id: :elvallie})
+      2
+
+      iex> tile = %Warlords.Core.Gameboard.Tile{terrain: %Warlords.Core.Gameboard.Terrain{id: :hill, type: :land, combat_modifiers: %{elvallie: 3}}}
+      ...> Warlords.Core.Gameboard.Terrain.combat_modifier(tile, :elvallie)
+      3
+
+      iex> terrain = %Warlords.Core.Gameboard.Terrain{id: :hill, type: :land, combat_modifiers: %{elvallie: 2}}
+      ...> Warlords.Core.Gameboard.Terrain.combat_modifier(terrain, %Warlords.Core.Units.Stack{empire_id: :elvallie})
+      2
+
+      iex> terrain = %Warlords.Core.Gameboard.Terrain{id: :hill, type: :land, combat_modifiers: %{elvallie: 3}}
+      ...> Warlords.Core.Gameboard.Terrain.combat_modifier(terrain, :elvallie)
+      3
+  """
+  @spec combat_modifier(Tile.t() | t, Empire.empire_id() | Stack.t()) :: integer
+  def combat_modifier(%Tile{terrain: terrain}, empire_id) when is_atom(empire_id) do
+    terrain.combat_modifiers[empire_id]
+  end
+
+  def combat_modifier(%Tile{terrain: terrain}, %Stack{empire_id: empire_id}) do
+    terrain.combat_modifiers[empire_id]
+  end
+
+  def combat_modifier(%__MODULE__{} = terrain, empire_id) when is_atom(empire_id) do
+    terrain.combat_modifiers[empire_id]
+  end
+
+  def combat_modifier(%__MODULE__{} = terrain, %Stack{empire_id: empire_id}) do
+    terrain.combat_modifiers[empire_id]
   end
 
   @doc """
@@ -58,7 +124,8 @@ defmodule Warlords.Core.Gameboard.Terrain do
 
       iex> Warlords.Core.Gameboard.Terrain.new!(%{
       ...>   id: :hill,
-      ...>   type: :land
+      ...>   type: :land,
+      ...>   combat_modifiers: %{elvallie: 0}
       ...> })
 
       %Warlords.Core.Gameboard.Terrain{id: :hill, type: :land}
@@ -80,7 +147,8 @@ defmodule Warlords.Core.Gameboard.Terrain do
 
       iex> Warlords.Core.Gameboard.Terrain.new(%{
       ...>   id: :hill,
-      ...>   type: :land
+      ...>   type: :land,
+      ...>   combat_modifiers: %{elvallie: 0}
       ...> })
 
       {:ok, %Warlords.Core.Gameboard.Terrain{id: :hill, type: :land}}
@@ -92,7 +160,7 @@ defmodule Warlords.Core.Gameboard.Terrain do
     |> Ecto.Changeset.apply_action(:new_terrain)
   end
 
-  @fields ~w(id type)a
+  @fields ~w(id type combat_modifiers)a
   defp changeset(terrain, attrs) do
     terrain
     |> cast(attrs, @fields)

@@ -5,8 +5,98 @@ defmodule Warlords.Core.Gameboard.TerrainTest do
 
   doctest Terrain
 
-  @valid_attrs %{id: :road, type: :land}
-  @required_fields ~w(id type)a
+  @valid_attrs %{
+    id: :road,
+    type: :land,
+    combat_modifiers: %{
+      elvallie: 0,
+      grey_dwarves: 0,
+      horse_lords: 0,
+      lord_bane: 0,
+      orcs_of_kor: 0,
+      selentines: 0,
+      sirians: 0,
+      storm_giants: 0
+    }
+  }
+  @required_fields ~w(id type combat_modifiers)a
+
+  describe "combat_modifier/1" do
+    test "finds for a defending stack on a tile" do
+      tile = %Warlords.Core.Gameboard.Tile{
+        terrain: %Warlords.Core.Gameboard.Terrain{
+          id: :hill,
+          type: :land,
+          combat_modifiers: %{elvallie: 1}
+        },
+        stack: %Warlords.Core.Units.Stack{empire_id: :elvallie}
+      }
+
+      assert Warlords.Core.Gameboard.Terrain.combat_modifier(tile) == 1
+    end
+  end
+
+  describe "combat_modifier/2" do
+    test "returns 0 if there is no defender" do
+      tile = %Warlords.Core.Gameboard.Tile{
+        terrain: %Warlords.Core.Gameboard.Terrain{
+          id: :hill,
+          type: :land,
+          combat_modifiers: %{elvallie: 1}
+        }
+      }
+
+      assert Warlords.Core.Gameboard.Terrain.combat_modifier(tile) == 0
+    end
+
+    test "finds for tile given an attacking stack" do
+      tile = %Warlords.Core.Gameboard.Tile{
+        terrain: %Warlords.Core.Gameboard.Terrain{
+          id: :hill,
+          type: :land,
+          combat_modifiers: %{elvallie: 2}
+        }
+      }
+
+      assert Warlords.Core.Gameboard.Terrain.combat_modifier(tile, %Warlords.Core.Units.Stack{
+               empire_id: :elvallie
+             }) == 2
+    end
+
+    test "finds for tile given an attacking empire_id" do
+      tile = %Warlords.Core.Gameboard.Tile{
+        terrain: %Warlords.Core.Gameboard.Terrain{
+          id: :hill,
+          type: :land,
+          combat_modifiers: %{elvallie: 2}
+        }
+      }
+
+      assert Warlords.Core.Gameboard.Terrain.combat_modifier(tile, :elvallie) == 2
+    end
+
+    test "finds for terrain given an attacking stack" do
+      terrain = %Warlords.Core.Gameboard.Terrain{
+        id: :hill,
+        type: :land,
+        combat_modifiers: %{elvallie: 2}
+      }
+
+      assert Warlords.Core.Gameboard.Terrain.combat_modifier(terrain, %Warlords.Core.Units.Stack{
+               empire_id: :elvallie
+             }) == 2
+    end
+
+    test "finds for terrain given an attacking empire_id" do
+      terrain = %Warlords.Core.Gameboard.Terrain{
+        id: :hill,
+        type: :land,
+        combat_modifiers: %{elvallie: 3}
+      }
+
+      assert Warlords.Core.Gameboard.Terrain.combat_modifier(terrain, :elvallie) == 3
+    end
+  end
 
   describe "new/1" do
     test "with valid attributes" do

@@ -32,6 +32,9 @@ defmodule Warlords.Core.Gameboard.Tile do
           connected: connected_tiles()
         }
 
+  defdelegate combat_modifier(tile_with_defender), to: Terrain
+  defdelegate combat_modifier(tile_or_terrain, stack_or_empire_id), to: Terrain
+
   @primary_key false
   embedded_schema do
     field(:x, :integer)
