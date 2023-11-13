@@ -28,7 +28,8 @@ defmodule Warlords.MixProject do
             Warlords.Core.Units.Standard,
             Warlords.Core.Units.Special,
             Warlords.Core.Units.Hero,
-            Warlords.Core.Units.Stack
+            Warlords.Core.Units.Stack,
+            Warlords.Core.Units.Stack.CombatModifier
           ],
           "Core - Map Concerns": [
             Warlords.Core.Gameboard,
@@ -37,7 +38,8 @@ defmodule Warlords.MixProject do
             Warlords.Core.Gameboard.City,
             Warlords.Core.Gameboard.Empire,
             Warlords.Core.Gameboard.Item,
-            Warlords.Core.Gameboard.Terrain
+            Warlords.Core.Gameboard.Terrain,
+            Warlords.Core.Gameboard.Tile
           ],
           Boilerplate: [
             Ecto.Atom

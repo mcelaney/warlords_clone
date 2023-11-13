@@ -5,7 +5,7 @@ defmodule Warlords.Core.Gameboard.TerrainTest do
 
   doctest Terrain
 
-  @valid_attrs %{id: :road, type: :ground}
+  @valid_attrs %{id: :road, type: :land}
   @required_fields ~w(id type)a
 
   describe "new/1" do

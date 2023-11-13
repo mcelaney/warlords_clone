@@ -12,7 +12,7 @@ defmodule Warlords.Core.Gameboard.Empire do
   @typedoc """
   An atom used to reference a specific empire, e.g. :grey_dwarves, :selentines
   """
-  @type empire_id :: Ecto.Atom
+  @type empire_id :: atom
 
   @type t :: %__MODULE__{
           id: empire_id(),

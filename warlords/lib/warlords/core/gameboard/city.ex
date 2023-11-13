@@ -11,7 +11,6 @@ defmodule Warlords.Core.Gameboard.City do
   alias Warlords.Core
   alias Warlords.Core.Gameboard.ProductionTemplate
   alias Warlords.Core.Gameboard.Empire
-  alias Warlords.Core.Units.Stack
 
   @typedoc """
   An atom used to reference a specific city on the map, e.g. :loremark, :malikor
@@ -122,7 +121,7 @@ defmodule Warlords.Core.Gameboard.City do
   defp changeset(army, attrs) do
     army
     |> cast(attrs, @fields)
-    |> put_embed(:army_templates, attrs[:army_templates] || [])
+    |> put_embed(:army_templates, attrs[:army_templates] || attrs["army_templates"] || [])
     |> validate_required(@required)
   end
 end

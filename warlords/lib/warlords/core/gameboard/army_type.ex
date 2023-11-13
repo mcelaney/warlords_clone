@@ -7,6 +7,7 @@ defmodule Warlords.Core.Gameboard.ArmyType do
   """
   use Ecto.Schema
   import Ecto.Changeset
+  alias Warlords.Core.Gameboard.Terrain
 
   @typedoc """
   An atom used to reference a specific army type, e.g. :archer, :hero, :dragon
@@ -28,27 +29,11 @@ defmodule Warlords.Core.Gameboard.ArmyType do
   """
   @type unit_type :: :standard | :special | :hero
 
-  @typedoc """
-  Defines limitations on movement based on the terrain type.
-
-  - **Ground units** can only move on ground-based terrains unless in a stack with a
-  sea unit.
-
-  - **Sea units** can only move on water-based terrains and can carry any mimic or
-  ground unit on the same.
-
-  - **Air units** can move anywhere and can carry mimics. They also provide an attack
-  bonus to other armies in the same stack.
-
-  - **Mimics** move like ground units unless in a stack with an air or sea unit.
-  """
-  @type terrain_access :: :ground | :air | :sea | :mimic
-
   @type t :: %__MODULE__{
           id: army_type(),
           label: String.t(),
           type: unit_type(),
-          access: terrain_access()
+          access: Terrain.access_type()
         }
 
   @primary_key false
@@ -56,7 +41,7 @@ defmodule Warlords.Core.Gameboard.ArmyType do
     field(:id, Ecto.Atom)
     field(:label, :string)
     field(:type, Ecto.Enum, values: [:standard, :special, :hero])
-    field(:access, Ecto.Enum, values: [:ground, :air, :sea, :mimic])
+    field(:access, Ecto.Enum, values: [:ground, :air, :sea, :rider])
   end
 
   @doc """

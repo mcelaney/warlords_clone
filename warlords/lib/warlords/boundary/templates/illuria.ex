@@ -63,7 +63,7 @@ defmodule Warlords.Boundary.Template.Maps.Illuria do
         Gameboard.new_army_type!(%{id: :ghost, label: "Undead", type: :special, access: :ground}),
       wizard:
         Gameboard.new_army_type!(%{id: :wizard, label: "Wizards", type: :special, access: :ground}),
-      hero: Gameboard.new_army_type!(%{id: :hero, label: "Heroes", type: :hero, access: :mimic})
+      hero: Gameboard.new_army_type!(%{id: :hero, label: "Heroes", type: :hero, access: :rider})
     ]
   end
 
@@ -2096,13 +2096,13 @@ defmodule Warlords.Boundary.Template.Maps.Illuria do
   def terrains do
     [
       bridge: Gameboard.new_terrain!(%{id: :bridge, type: :bridge}),
-      city: Gameboard.new_terrain!(%{id: :city, type: :ground}),
-      forest: Gameboard.new_terrain!(%{id: :forest, type: :ground}),
-      hill: Gameboard.new_terrain!(%{id: :hill, type: :ground}),
-      marsh: Gameboard.new_terrain!(%{id: :marsh, type: :ground}),
+      city: Gameboard.new_terrain!(%{id: :city, type: :land}),
+      forest: Gameboard.new_terrain!(%{id: :forest, type: :land}),
+      hill: Gameboard.new_terrain!(%{id: :hill, type: :land}),
+      marsh: Gameboard.new_terrain!(%{id: :marsh, type: :land}),
       mountain: Gameboard.new_terrain!(%{id: :mountain, type: :restricted}),
-      plain: Gameboard.new_terrain!(%{id: :plain, type: :ground}),
-      road: Gameboard.new_terrain!(%{id: :road, type: :ground}),
+      plain: Gameboard.new_terrain!(%{id: :plain, type: :land}),
+      road: Gameboard.new_terrain!(%{id: :road, type: :land}),
       shore: Gameboard.new_terrain!(%{id: :shore, type: :sea}),
       water: Gameboard.new_terrain!(%{id: :water, type: :sea})
     ]

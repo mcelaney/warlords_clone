@@ -13,6 +13,7 @@ defmodule Warlords.Core.Gameboard do
   alias Warlords.Core.Gameboard.Empire
   alias Warlords.Core.Gameboard.Item
   alias Warlords.Core.Gameboard.Terrain
+  alias Warlords.Core.Gameboard.Tile
 
   defdelegate new_army_template(attrs), to: ProductionTemplate, as: :new
   defdelegate new_army_template!(attrs), to: ProductionTemplate, as: :new!
@@ -31,4 +32,9 @@ defmodule Warlords.Core.Gameboard do
 
   defdelegate new_terrain(attrs), to: Terrain, as: :new
   defdelegate new_terrain!(attrs), to: Terrain, as: :new!
+
+  defdelegate new_tile(attrs), to: Tile, as: :new
+  defdelegate new_tile!(attrs), to: Tile, as: :new!
+
+  defdelegate add_stack_to_tile(tile, stack), to: Tile, as: :add_stack
 end
