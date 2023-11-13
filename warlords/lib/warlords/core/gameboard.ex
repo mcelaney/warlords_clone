@@ -24,6 +24,10 @@ defmodule Warlords.Core.Gameboard do
   defdelegate new_city(attrs), to: City, as: :new
   defdelegate new_city!(attrs), to: City, as: :new!
 
+  defdelegate upgradeable?(city), to: City
+  defdelegate upgrade_city(city), to: City, as: :upgrade
+  defdelegate defense_modifier(city), to: City
+
   defdelegate new_empire(attrs), to: Empire, as: :new
   defdelegate new_empire!(attrs), to: Empire, as: :new!
 

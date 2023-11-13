@@ -66,4 +66,58 @@ defmodule Warlords.Core.Gameboard.CityTest do
       end
     end
   end
+
+  describe "upgradeable?/1" do
+    test "when defense less than the max" do
+      city = Gameboard.new_city!(Map.put(@valid_attrs, :defense, 8))
+      assert Gameboard.upgradeable?(city)
+    end
+
+    test "returns false if the defense is the max" do
+      city = Gameboard.new_city!(Map.put(@valid_attrs, :defense, 9))
+      refute Gameboard.upgradeable?(city)
+    end
+  end
+
+  describe "upgrade/1" do
+    test "when defense less than the max" do
+      city = Gameboard.new_city!(Map.put(@valid_attrs, :defense, 8))
+      {:ok, result} = Gameboard.upgrade_city(city)
+      assert 9 == result.defense
+    end
+
+    test "returns false if the defense is the max" do
+      city = Gameboard.new_city!(Map.put(@valid_attrs, :defense, 9))
+      {:error, result} = Gameboard.upgrade_city(city)
+      assert "City is already at max defense" == result
+    end
+  end
+
+  describe "defense_modifier/1" do
+    test "no defense" do
+      for val <- 0..1 do
+        city = Gameboard.new_city!(Map.put(@valid_attrs, :defense, val))
+        assert 0 == Gameboard.defense_modifier(city)
+      end
+    end
+
+    test "small defense" do
+      for val <- 2..6 do
+        city = Gameboard.new_city!(Map.put(@valid_attrs, :defense, val))
+        assert 1 == Gameboard.defense_modifier(city)
+      end
+    end
+
+    test "medium defense" do
+      for val <- 7..8 do
+        city = Gameboard.new_city!(Map.put(@valid_attrs, :defense, val))
+        assert 2 == Gameboard.defense_modifier(city)
+      end
+    end
+
+    test "max defense" do
+      city = Gameboard.new_city!(Map.put(@valid_attrs, :defense, 9))
+      assert 3 == Gameboard.defense_modifier(city)
+    end
+  end
 end

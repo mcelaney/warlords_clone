@@ -40,6 +40,8 @@ defmodule Warlords.Core.Gameboard.City do
           capital: empire_id()
         }
 
+  @max_defense 9
+
   @primary_key false
   embedded_schema do
     field(:id, Ecto.Atom)
@@ -114,6 +116,94 @@ defmodule Warlords.Core.Gameboard.City do
     %__MODULE__{}
     |> changeset(attrs)
     |> Ecto.Changeset.apply_action(:new_city)
+  end
+
+  @doc """
+  Returns true if the current defense is less than the max
+
+  ## Examples
+
+      iex> city = Warlords.Core.Gameboard.City.new!(%{
+      ...>   id: :stormheim,
+      ...>   label: "Stormheim",
+      ...>   defense: 6,
+      ...>   army_templates: [],
+      ...>   capital: :storm_giants
+      ...> })
+      ...> Warlords.Core.Gameboard.City.upgradeable?(city)
+      true
+  """
+  @spec upgradeable?(t()) :: boolean()
+  def upgradeable?(city), do: city.defense < @max_defense
+
+  @doc """
+  Increases defense of a city by 1
+
+  Defense can only be increased up to a max of 9 and adds a modifier to defenders
+  while in the city similar to the leadership modifier on a hero.
+
+  ## Examples
+
+      iex> city = Warlords.Core.Gameboard.City.new!(%{
+      ...>   id: :stormheim,
+      ...>   label: "Stormheim",
+      ...>   defense: 6,
+      ...>   army_templates: [],
+      ...>   capital: :storm_giants
+      ...> })
+      ...> Warlords.Core.Gameboard.City.upgrade(city)
+      {
+        :ok,
+          %Warlords.Core.Gameboard.City{
+          id: :stormheim,
+          label: "Stormheim",
+          defense: 7,
+          army_templates: [],
+          capital: :storm_giants
+        }
+      }
+  """
+  @spec upgrade(t()) :: {:ok, t()} | {:error, String.t()}
+  def upgrade(city) do
+    case upgradeable?(city) do
+      true ->
+        city
+        |> change()
+        |> put_change(:defense, city.defense + 1)
+        |> Ecto.Changeset.apply_action(:new_city)
+
+      false ->
+        {:error, "City is already at max defense"}
+    end
+  end
+
+  @doc """
+  Returns a bonus combat modifier for units in a city when it's attacked
+
+  0..1 == 0
+  2..6 == 1
+  7..8 == 2
+  9 == 3
+
+  ## Examples
+
+      iex> city = Warlords.Core.Gameboard.City.new!(%{
+      ...>   id: :stormheim,
+      ...>   label: "Stormheim",
+      ...>   defense: 6,
+      ...>   army_templates: [],
+      ...>   capital: :storm_giants
+      ...> })
+      ...> Warlords.Core.Gameboard.City.defense_modifier(city)
+      1
+  """
+  def defense_modifier(city) do
+    cond do
+      city.defense <= 1 -> 0
+      city.defense <= 6 -> 1
+      city.defense <= 8 -> 2
+      city.defense == 9 -> 3
+    end
   end
 
   @fields ~w(id label defense capital)a
