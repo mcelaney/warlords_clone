@@ -49,12 +49,12 @@ defmodule Warlords.Core.Units.Stack.CombatModiferTest do
       @walking_standard
     ]
 
-    assert Units.combat_modifier(%Stack{units: units}) == 6
+    assert Units.combat_modifier(%Stack{units: units}) == 5
   end
 
-  test "Flying points stack" do
+  test "Flying points do not stack" do
     units = [@flying_standard, @flying_special]
-    assert Units.combat_modifier(%Stack{units: units}) == 3
+    assert Units.combat_modifier(%Stack{units: units}) == 2
   end
 
   test "Special points stack" do

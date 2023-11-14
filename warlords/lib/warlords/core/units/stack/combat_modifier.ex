@@ -123,14 +123,15 @@ defmodule Warlords.Core.Units.Stack.CombatModifier do
   defp flying_value({units, acc}) when acc > 8, do: {units, 9}
 
   defp flying_value({units, acc}) do
-    value =
-      units
-      |> Enum.reduce(0, fn
-        %{terrain_access: :air}, acc -> acc + 1
-        _, acc -> acc
-      end)
-
-    {units, acc + value}
+    units
+    |> Enum.any?(fn
+      %{terrain_access: :air} -> true
+      _ -> false
+    end)
+    |> case do
+      true -> {units, acc + 1}
+      false -> {units, acc}
+    end
   end
 
   defp acfm_leadership_items(items) when is_list(items) do
