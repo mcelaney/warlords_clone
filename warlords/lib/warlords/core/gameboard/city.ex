@@ -25,7 +25,7 @@ defmodule Warlords.Core.Gameboard.City do
   @typedoc """
   The base strength before force combat modifiers are applied
   """
-  @type defense_strength :: integer
+  @type defense_strength :: Core.strength_points()
 
   @typedoc """
   If a capital city - the related empire

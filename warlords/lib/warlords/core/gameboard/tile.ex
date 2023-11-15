@@ -2,6 +2,7 @@ defmodule Warlords.Core.Gameboard.Tile do
   use Ecto.Schema
   import Ecto.Changeset
   alias Warlords.Core.Gameboard.Terrain
+  alias Warlords.Core.Gameboard.Tower
   alias Warlords.Core.Units.Stack
 
   @typedoc """
@@ -24,11 +25,21 @@ defmodule Warlords.Core.Gameboard.Tile do
   """
   @type connected_tiles :: [{x :: integer, y :: integer}]
 
+  @typedoc """
+  A building which can sit on a tile, e.g. a city, tower or ruin
+
+  In the case where a structure should sit on multiple tiles (such as a city,
+  which normally sits on four) the structure should be placed on the first
+  in the group.
+  """
+  @type structure :: City.t() | Tower.t() | Ruin.t()
+
   @type t :: %__MODULE__{
           x: integer(),
           y: integer(),
           terrain: Terrain.t(),
           stack: Stack.t(),
+          structure: structure(),
           connected: connected_tiles()
         }
 
@@ -40,6 +51,7 @@ defmodule Warlords.Core.Gameboard.Tile do
     field(:x, :integer)
     field(:y, :integer)
     field(:connected, Ecto.TupleList)
+    field(:structure, :map)
 
     embeds_one(:terrain, Terrain)
     embeds_one(:stack, Stack, on_replace: :delete)
@@ -131,7 +143,7 @@ defmodule Warlords.Core.Gameboard.Tile do
 
   ## Examples
 
-      iex> Warlords.Core.Gameboard.Tile.new!(%{
+      iex> Warlords.Core.Gameboard.Tile.new(%{
       ...>   x: 50,
       ...>   y: 100,
       ...>   terrain: %Warlords.Core.Gameboard.Terrain{id: :hill, type: :land}
@@ -163,7 +175,7 @@ defmodule Warlords.Core.Gameboard.Tile do
     |> Ecto.Changeset.apply_action(:new_tile)
   end
 
-  @fields ~w(x y connected)a
+  @fields ~w(x y connected structure)a
   def changeset(tile, attrs) do
     tile
     |> cast(attrs, @fields)

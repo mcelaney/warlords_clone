@@ -1,6 +1,7 @@
 defmodule Warlords.Core.Gameboard.TileTest do
   use Warlords.DataCase
   alias Warlords.Core.Gameboard
+  alias Warlords.Core.Gameboard.ProductionTemplate
   alias Warlords.Core.Gameboard.Tile
 
   # doctest Tile
@@ -11,6 +12,14 @@ defmodule Warlords.Core.Gameboard.TileTest do
     y: 100,
     terrain: @terrain,
     connected: [{50, 100}, {50, 101}, {51, 100}, {51, 101}]
+  }
+  @city_attrs %{
+    id: :ak_enlie,
+    label: "Ak-enlie",
+    defense: 4,
+    army_templates: [
+      ProductionTemplate.new!(%{type: :heavy_infantry, time: 2, cost: 4, strength: 5, movement: 8})
+    ]
   }
   @required_fields ~w(x y terrain)a
 
@@ -225,6 +234,43 @@ defmodule Warlords.Core.Gameboard.TileTest do
       {:ok, %Tile{} = result} = Gameboard.new_tile(@valid_attrs)
       assert result.x == @valid_attrs[:x]
       assert result.y == @valid_attrs[:y]
+      assert result.terrain == @valid_attrs[:terrain]
+      assert result.connected == @valid_attrs[:connected]
+    end
+
+    test "with a ruin structure attributes" do
+      {:ok, %Tile{} = result} =
+        @valid_attrs
+        |> Map.put(:structure, Gameboard.new_ruin!(%{type: :temple, gold: 5000}))
+        |> Gameboard.new_tile()
+
+      assert result.x == @valid_attrs[:x]
+      assert result.y == @valid_attrs[:y]
+      assert result.structure == Gameboard.new_ruin!(%{type: :temple, gold: 5000})
+      assert result.terrain == @valid_attrs[:terrain]
+      assert result.connected == @valid_attrs[:connected]
+    end
+
+    test "with a city structure attributes" do
+      {:ok, %Tile{} = result} =
+        @valid_attrs
+        |> Map.put(:structure, Gameboard.new_city!(@city_attrs))
+        |> Gameboard.new_tile()
+
+      assert result.x == @valid_attrs[:x]
+      assert result.y == @valid_attrs[:y]
+      assert result.structure == Gameboard.new_city!(@city_attrs)
+      assert result.terrain == @valid_attrs[:terrain]
+      assert result.connected == @valid_attrs[:connected]
+    end
+
+    test "with a tower structure attributes" do
+      {:ok, %Tile{} = result} =
+        @valid_attrs |> Map.put(:structure, Gameboard.new_tower!()) |> Gameboard.new_tile()
+
+      assert result.x == @valid_attrs[:x]
+      assert result.y == @valid_attrs[:y]
+      assert result.structure == Gameboard.new_tower!()
       assert result.terrain == @valid_attrs[:terrain]
       assert result.connected == @valid_attrs[:connected]
     end

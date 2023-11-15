@@ -75,7 +75,7 @@ defmodule Warlords.Core.Gameboard.ProductionTemplate do
       army_template
     else
       {:error, changeset} ->
-        raise "Failed to create army template: #{inspect(changeset.errors)}"
+        raise "Failed to create production template: #{inspect(changeset.errors)}"
     end
   end
 
