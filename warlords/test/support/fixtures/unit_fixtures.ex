@@ -2,52 +2,51 @@ defmodule Warlords.UnitFixtures do
   alias Warlords.Core.Units.Hero
   alias Warlords.Core.Units.Special
   alias Warlords.Core.Units.Standard
-
-  def hero_attrs(attrs \\ %{}) do
-    Enum.into(attrs, %{
-      label: "Brave Sir Robin",
-      strength: Enum.random(1..9),
-      movement: Enum.random(1..36),
-      upkeep: Enum.random(1..15),
-      army_type: :hero,
-      terrain_access: :rider,
-      items: []
-    })
-  end
+  alias Warlords.Core.Units.Stack
 
   def hero_fixture(attrs \\ %{}) do
-    struct(Hero, hero_attrs(attrs))
-  end
-
-  def special_attrs(attrs \\ %{}) do
-    Enum.into(attrs, %{
-      label: "Dragons",
-      strength: Enum.random(1..9),
-      movement: Enum.random(1..36),
-      upkeep: Enum.random(1..15),
-      army_type: :dragon,
-      terrain_access: :air,
-      blessings: []
-    })
+    %Hero{
+      empire_key: attrs[:empire_key] || :elvallie,
+      label: attrs[:label] || "Sir Bing",
+      rank: attrs[:rank] || 14,
+      movement: attrs[:movement] || 16,
+      strength: attrs[:strength] || 5,
+      production_key: attrs[:production_key] || :hero,
+      access: attrs[:access] || :rider,
+      artifacts: attrs[:artifacts] || []
+    }
   end
 
   def special_fixture(attrs \\ %{}) do
-    struct(Special, hero_attrs(attrs))
-  end
-
-  def standard_attrs(attrs \\ %{}) do
-    Enum.into(attrs, %{
-      label: "Dragons",
-      strength: Enum.random(1..9),
-      movement: Enum.random(1..36),
-      upkeep: Enum.random(1..15),
-      army_type: :dragon,
-      terrain_access: :air,
-      blessings: []
-    })
+    %Special{
+      empire_key: attrs[:empire_key] || :elvallie,
+      label: attrs[:label] || "Dragons",
+      rank: attrs[:rank] || 9,
+      movement: attrs[:movement] || 16,
+      strength: attrs[:strength] || 8,
+      production_key: attrs[:production_key] || :dragons,
+      access: attrs[:access] || :air
+    }
   end
 
   def standard_fixture(attrs \\ %{}) do
-    struct(Standard, hero_attrs(attrs))
+    %Standard{
+      empire_key: attrs[:empire_key] || :elvallie,
+      label: attrs[:label] || "Light Infantry",
+      rank: attrs[:rank] || 3,
+      movement: attrs[:movement] || 10,
+      strength: attrs[:strength] || 3,
+      production_key: attrs[:production_key] || :light_infantry,
+      strength_modifiers: attrs[:strength_modifiers] || %{hill: -1, forest: 1, marsh: -1},
+      move_modifiers: attrs[:move_modifiers] || %{hill: 1},
+      access: attrs[:access] || :land
+    }
+  end
+
+  def stack_fixture(attrs \\ %{}) do
+    %Stack{
+      empire_key: attrs[:empire_key] || :elvallie,
+      units: attrs[:units] || [standard_fixture()]
+    }
   end
 end

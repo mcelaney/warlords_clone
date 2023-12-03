@@ -3,177 +3,113 @@ defmodule Warlords.Core.Gameboard.City do
   A city is a location on the map that can be captured by an empire.
 
   The goal of the warlords is to capture all cities on the map. Once captured, cities
-  provide income and allow for the production of a set of army types. Each city
-  will provide slightly different stats for the armies it produces.
+  provcity_keye income and allow for the production of a set of army types. Each city
+  will provcity_keye slightly different stats for the armies it produces.
   """
-  use Ecto.Schema
-  import Ecto.Changeset
+
   alias Warlords.Core
-  alias Warlords.Core.Gameboard.ProductionTemplate
-  alias Warlords.Core.Gameboard.Empire
+
+  @max_level 9
 
   @typedoc """
-  An atom used to reference a specific city on the map, e.g. :loremark, :malikor
+  Maturity of the city defenses
+
+  Users can pay to upgrade city defenses which have an impact on combat
+  modifiers. These modifiers can increase the max stregth of defenders.
+
+  See `Warlords.Core.Gameboard.City.defense_modifier/1` for more details.
   """
-  @type city_id :: Ecto.Atom
+  @type level :: non_neg_integer()
 
   @typedoc """
-  The display name for the city
+  Amount of gold a city earns per turn
   """
-  @type city_label :: String.t()
+  @type income :: Core.gold()
 
   @typedoc """
-  The base strength before force combat modifiers are applied
+  The number of units which have been produced by the city
   """
-  @type defense_strength :: Core.strength_points()
-
-  @typedoc """
-  If a capital city - the related empire
-  """
-  @type empire_id :: Empire.empire_id()
+  @type production_count :: non_neg_integer()
 
   @type t :: %__MODULE__{
-          id: city_id(),
-          label: city_label,
-          defense: defense_strength(),
+          city_key: Core.city_key(),
+          label: String.t(),
+          level: level(),
           income: Core.gold(),
-          capital: empire_id()
+          production_count: 0,
+          army_templates: [Core.production_instructions()]
         }
 
-  @max_defense 9
-
-  @primary_key false
-  embedded_schema do
-    field(:id, Ecto.Atom)
-    field(:label, :string)
-    field(:defense, :integer)
-    field(:income, :integer)
-    field(:capital, Ecto.Atom)
-
-    embeds_many(:army_templates, ProductionTemplate)
-  end
+  @enforce_keys [:city_key, :label, :level]
+  defstruct [
+    :city_key,
+    :label,
+    :level,
+    income: 0,
+    production_count: 0,
+    army_templates: []
+  ]
 
   @doc """
-  Create a new city from the given attributes
+  Returns true if the current level is less than the max
 
   ## Examples
 
-      iex> giant = Warlords.Core.Gameboard.ProductionTemplate.new!(%{type: :giant, time: 2, cost: 4, strength: 6, movement: 12})
-      ...> Warlords.Core.Gameboard.City.new(%{
-      ...>   id: :stormheim,
+      iex> city = %Warlords.Core.Gameboard.City{
+      ...>   city_key: :stormheim,
       ...>   label: "Stormheim",
-      ...>   defense: 6,
-      ...>   army_templates: [giant],
-      ...>   capital: :storm_giants
-      ...> })
-
-      %Warlords.Core.Gameboard.City{
-        id: :stormheim,
-        label: "Stormheim",
-        defense: 6,
-        army_templates: [%Warlords.Core.Gameboard.ProductionTemplate{type: :giant, time: 2, cost: 4, strength: 6, movement: 12}],
-        capital: :storm_giants
-      }
-
-  """
-  @spec new!(attrs :: map) :: t() | no_return()
-  def new!(attrs) do
-    with {:ok, city} <- new(attrs) do
-      city
-    else
-      {:error, changeset} ->
-        raise "Failed to create city: #{inspect(changeset.errors)}"
-    end
-  end
-
-  @doc """
-  Create a new city from the given attributes returned as a tagged tuple
-
-  ## Examples
-
-      iex> giant = Warlords.Core.Gameboard.ProductionTemplate.new!(%{type: :giant, time: 2, cost: 4, strength: 6, movement: 12})
-      ...> Warlords.Core.Gameboard.City.new(%{
-      ...>   id: :stormheim,
-      ...>   label: "Stormheim",
-      ...>   defense: 6,
-      ...>   army_templates: [giant],
-      ...>   capital: :storm_giants
-      ...> })
-
-      {
-        :ok,
-        %Warlords.Core.Gameboard.City{
-          id: :stormheim,
-          label: "Stormheim",
-          defense: 6,
-          army_templates: [%Warlords.Core.Gameboard.ProductionTemplate{type: :giant, time: 2, cost: 4, strength: 6, movement: 12}],
-          capital: :storm_giants
-        }
-      }
-  """
-  @spec new(attrs :: map) :: {:ok, t()} | {:error, Ecto.Changeset.t()}
-  def new(attrs) do
-    %__MODULE__{}
-    |> changeset(attrs)
-    |> Ecto.Changeset.apply_action(:new_city)
-  end
-
-  @doc """
-  Returns true if the current defense is less than the max
-
-  ## Examples
-
-      iex> city = Warlords.Core.Gameboard.City.new!(%{
-      ...>   id: :stormheim,
-      ...>   label: "Stormheim",
-      ...>   defense: 6,
-      ...>   army_templates: [],
-      ...>   capital: :storm_giants
-      ...> })
+      ...>   level: 6
+      ...> }
       ...> Warlords.Core.Gameboard.City.upgradeable?(city)
       true
+
+      iex> city = %Warlords.Core.Gameboard.City{
+      ...>   city_key: :stormheim,
+      ...>   label: "Stormheim",
+      ...>   level: 9
+      ...> }
+      ...> Warlords.Core.Gameboard.City.upgradeable?(city)
+      false
   """
   @spec upgradeable?(t()) :: boolean()
-  def upgradeable?(city), do: city.defense < @max_defense
+  def upgradeable?(city), do: city.level < @max_level
 
   @doc """
-  Increases defense of a city by 1
+  Increases level of a city by 1
 
   Defense can only be increased up to a max of 9 and adds a modifier to defenders
   while in the city similar to the leadership modifier on a hero.
 
   ## Examples
 
-      iex> city = Warlords.Core.Gameboard.City.new!(%{
-      ...>   id: :stormheim,
+      iex> city = %Warlords.Core.Gameboard.City{
+      ...>   city_key: :stormheim,
       ...>   label: "Stormheim",
-      ...>   defense: 6,
-      ...>   army_templates: [],
-      ...>   capital: :storm_giants
-      ...> })
+      ...>   level: 6
+      ...> }
       ...> Warlords.Core.Gameboard.City.upgrade(city)
       {
         :ok,
           %Warlords.Core.Gameboard.City{
-          id: :stormheim,
+          city_key: :stormheim,
           label: "Stormheim",
-          defense: 7,
-          army_templates: [],
-          capital: :storm_giants
+          level: 7
         }
       }
+
+      iex> city = %Warlords.Core.Gameboard.City{
+      ...>   city_key: :stormheim,
+      ...>   label: "Stormheim",
+      ...>   level: 9
+      ...> }
+      ...> Warlords.Core.Gameboard.City.upgrade(city)
+      {:error, "City is already at max level"}
   """
   @spec upgrade(t()) :: {:ok, t()} | {:error, String.t()}
   def upgrade(city) do
     case upgradeable?(city) do
-      true ->
-        city
-        |> change()
-        |> put_change(:defense, city.defense + 1)
-        |> Ecto.Changeset.apply_action(:new_city)
-
-      false ->
-        {:error, "City is already at max defense"}
+      true -> {:ok, Map.update!(city, :level, fn _ -> city.level + 1 end)}
+      false -> {:error, "City is already at max level"}
     end
   end
 
@@ -187,31 +123,20 @@ defmodule Warlords.Core.Gameboard.City do
 
   ## Examples
 
-      iex> city = Warlords.Core.Gameboard.City.new!(%{
-      ...>   id: :stormheim,
+      iex> city = %Warlords.Core.Gameboard.City{
+      ...>   city_key: :stormheim,
       ...>   label: "Stormheim",
-      ...>   defense: 6,
-      ...>   army_templates: [],
-      ...>   capital: :storm_giants
-      ...> })
+      ...>   level: 6
+      ...> }
       ...> Warlords.Core.Gameboard.City.defense_modifier(city)
       1
   """
   def defense_modifier(city) do
     cond do
-      city.defense <= 1 -> 0
-      city.defense <= 6 -> 1
-      city.defense <= 8 -> 2
-      city.defense == 9 -> 3
+      city.level <= 1 -> 0
+      city.level <= 6 -> 1
+      city.level <= 8 -> 2
+      city.level >= 9 -> 3
     end
-  end
-
-  @fields ~w(id label defense capital)a
-  @required ~w(id label defense)a
-  defp changeset(army, attrs) do
-    army
-    |> cast(attrs, @fields)
-    |> put_embed(:army_templates, attrs[:army_templates] || attrs["army_templates"] || [])
-    |> validate_required(@required)
   end
 end

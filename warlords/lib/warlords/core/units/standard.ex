@@ -3,60 +3,38 @@ defmodule Warlords.Core.Units.Standard do
   An army produced by a city
 
   Standard armies may be produced in cities. Once produced it's expected they
-  will be added to a stack, groups of armies which are the actual units players
-  control on the gameboard.
+  will be added to a stack.
   """
 
-  use Warlords.Core.Units.MilitaryUnit
+  alias Warlords.Core
 
-  @doc """
-  Generates a new standard unit from the given attributes returned as a tagged tuple
+  @type t :: %__MODULE__{
+          empire_key: Core.empire_key(),
+          label: String.t(),
+          rank: Core.rank(),
+          movement: Core.movement(),
+          strength: Core.strength(),
+          production_key: Core.production_key(),
+          access: Core.terrain_access(),
+          upkeep: Core.gold(),
+          blessings: [Core.blessing()],
+          strength_modifiers: Core.strength_modifiers(),
+          move_modifiers: Core.movement_modifiers()
+        }
 
-  ## Examples
+  @enforce_keys [:empire_key, :label, :rank, :movement, :strength, :production_key, :access]
 
-      iex> Warlords.Core.Units.Standard.new(%{
-      ...>   label: "Gildenhome 101st Elven Archers",
-      ...>   strength: 4,
-      ...>   movement: 12,
-      ...>   army_type: :archer,
-      ...>   terrain_access: :groud,
-      ...>   upkeep: 2
-      ...> })
-
-      {
-        :ok,
-        %Warlords.Core.Units.Standard{label: "Gildenhome 101st Elven Archers",
-                                      strength: 4, movement: 12, upkeep: 2,
-                                      army_type: :archer, terrain_access: :ground,
-                                      blessings: []}
-      }
-  """
-  def new(attrs)
-
-  @doc """
-  Generates a new standard unit from the given attributes
-
-  ## Examples
-
-      iex> Warlords.Core.Units.Standard.new!(%{
-      ...>   label: "Gildenhome 101st Elven Archers",
-      ...>   strength: 4,
-      ...>   movement: 12,
-      ...>   army_type: :archer,
-      ...>   terrain_access: :groud,
-      ...>   upkeep: 2
-      ...> })
-
-      %Warlords.Core.Units.Standard{label: "Gildenhome 101st Elven Archers",
-                                    strength: 4, movement: 12, upkeep: 2,
-                                    army_type: :archer, terrain_access: :ground,
-                                    blessings: []}
-  """
-  def new!(attrs)
-
-  @impl true
-  def changeset(army, attrs) do
-    army
-    |> cast(attrs, ~w(label strength movement army_type terrain_access upkeep)a)
-  end
+  defstruct [
+    :empire_key,
+    :label,
+    :rank,
+    :movement,
+    :strength,
+    production_key: :hero,
+    access: :land,
+    upkeep: 0,
+    blessings: [],
+    strength_modifiers: %{},
+    move_modifiers: %{}
+  ]
 end

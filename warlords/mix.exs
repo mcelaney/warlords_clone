@@ -15,13 +15,12 @@ defmodule Warlords.MixProject do
       docs: [
         extras: ["README.md"],
         groups_for_modules: [
-          "Boundary - Maps": [
-            Warlords.Boundary.Template.Maps.Illuria
-          ],
-          "Core - City Concerns": [
-            Warlords.Core.City,
-            Warlords.Core.City.Army,
-            Warlords.Core.City.Army.Label
+          "Core - Battle Concerns": [
+            Warlords.Core.Battle,
+            Warlords.Core.Battle.Defense,
+            Warlords.Core.Battle.Attack,
+            Warlords.Core.Battle.Formation,
+            Warlords.Core.Battle.StackModifier
           ],
           "Core - Units": [
             Warlords.Core.Units,
@@ -29,20 +28,22 @@ defmodule Warlords.MixProject do
             Warlords.Core.Units.Special,
             Warlords.Core.Units.Hero,
             Warlords.Core.Units.Stack,
-            Warlords.Core.Units.Stack.CombatModifier
+            Warlords.Core.Units.Label
           ],
           "Core - Map Concerns": [
             Warlords.Core.Gameboard,
-            Warlords.Core.Gameboard.ProductionTemplate,
-            Warlords.Core.Gameboard.ArmyType,
+            Warlords.Core.Gameboard.Artifact,
             Warlords.Core.Gameboard.City,
             Warlords.Core.Gameboard.Empire,
-            Warlords.Core.Gameboard.Item,
-            Warlords.Core.Gameboard.Terrain,
+            Warlords.Core.Gameboard.Quest,
             Warlords.Core.Gameboard.Tile
           ],
-          Boilerplate: [
-            Ecto.Atom
+          Templates: [
+            Template.Illuria,
+            Template.Illuria.Cities,
+            Template.Illuria.Plot,
+            Template.Illuria.Quests,
+            Template.Illuria.Units
           ]
         ]
       ]
@@ -59,12 +60,12 @@ defmodule Warlords.MixProject do
 
   # Specifies which paths to compile per environment.
   defp elixirc_paths(:test), do: ["lib", "test/support"]
+  defp elixirc_paths(:dev), do: ["lib", "priv/templates"]
   defp elixirc_paths(_), do: ["lib"]
 
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:ecto_sql, "~> 3.0"},
       {:ex_doc, "~> 0.27", only: :dev, runtime: false},
       {:makeup_html, ">= 0.0.0", only: :dev, runtime: false}
     ]
