@@ -5,7 +5,7 @@ defmodule Warlords.BattleFixtures do
   def formation_fixture(attrs \\ %{}) do
     %Formation{
       rank: attrs[:rank] || 3,
-      strength: attrs[:strength] || 2,
+      strength: attrs[:strength] || 3,
       origin: attrs[:location] || {3, 3},
       unit: attrs[:unit] || unit()
     }
